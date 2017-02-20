@@ -6,6 +6,7 @@ License:        GPLv2+
 Group:          Monitoring
 Url:            https://github.com/Denvi/Candle
 Source0:	https://github.com/Denvi/Candle/archive/v%{version}.tar.gz
+Patch0:		translation.patch
 
 BuildRequires:	cmake(Qt5SerialPort)
 BuildRequires:	cmake(Qt5Core)
@@ -24,6 +25,7 @@ Visualizing G-code files.
 
 %prep
 %setup -qn Candle-%{version}
+%apply_patches
 
 %build
 pushd src
