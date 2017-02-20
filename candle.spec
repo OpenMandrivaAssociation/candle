@@ -41,10 +41,26 @@ install -d %{buildroot}/%{_datadir}/%{name}/translations/
 install -m 0644 translations/*.qm %{buildroot}/%{_datadir}/%{name}/translations/
 install -d %{buildroot}/%{_bindir}
 install -m 0755 Candle %{buildroot}/%{_bindir}/candle
-install -d %{buildroot}/%{_datadir}/%{name}/images/
+install -d %{buildroot}/%{_datadir}/icons/hicolor
+install -m 0644 images/candle_256.png %{buildroot}/%{_datadir}/icons/candle.png
 popd
+
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/%{name}.desktop <<EOF
+[Desktop Entry]
+Name=Candle
+GenericName=Candle
+Comment=GRBL controller application with G-Code visualizer written in Qt.
+Exec=%{_bindir}/%{name}
+Icon=%{name}
+Terminal=false
+Type=Application
+StartupNotify=true
+EOF
 
 %find_lang candle --with-qt
 
 %files -f %{name}.lang
 %{_bindir}/%{name}
+%{_datadir}/icons/candle.png
+%{_datadir}/applications/%{name}.desktop
