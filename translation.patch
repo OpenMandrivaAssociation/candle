@@ -1,3 +1,45 @@
+diff --git a/src/frmabout.cpp b/src/frmabout.cpp
+index d77774b..fbf6ab4 100644
+--- a/src/frmabout.cpp
++++ b/src/frmabout.cpp
+@@ -12,8 +12,11 @@ frmAbout::frmAbout(QWidget *parent) :
+     ui->setupUi(this);
+
+     ui->lblAbout->setText(ui->lblAbout->text().arg(qApp->applicationVersion()));
+-
++#ifdef UNIX
++    QFile file("/usr/share/doc/" + qApp->applicationDisplayName() + "/LICENSE");
++#else
+     QFile file(qApp->applicationDirPath() + "/LICENSE");
++#endif
+
+     if (file.open(QIODevice::ReadOnly)) {
+         ui->txtLicense->setPlainText(file.readAll());
+diff --git a/src/frmmain.cpp b/src/frmmain.cpp
+index 48fee72..02f306c 100644
+--- a/src/frmmain.cpp
++++ b/src/frmmain.cpp
+@@ -32,6 +32,8 @@
+ #include <QAction>
+ #include <QLayout>
+ #include <QMimeData>
++#include <QStandardPaths>
++
+ #include "frmmain.h"
+ #include "ui_frmmain.h"
+
+@@ -85,7 +87,11 @@ frmMain::frmMain(QWidget *parent) :
+                        << "black";
+
+     // Loading settings
++#ifdef UNIX
++    m_settingsFileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)+ "/candle/" + "/settings.ini";
++#else
+     m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
++#endif
+     preloadSettings();
+
+     m_settings = new frmSettings(this);
 diff --git a/src/main.cpp b/src/main.cpp
 index aeed2e0..6e1e21a 100644
 --- a/src/main.cpp
