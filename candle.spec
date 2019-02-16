@@ -1,11 +1,11 @@
 Summary:	GRBL controller application
 Name:           candle
 Version:        1.1
-Release:        1
+Release:        2
 License:        GPLv2+
 Group:          Monitoring
 Url:            https://github.com/Denvi/Candle
-Source0:	https://github.com/Denvi/Candle/archive/v%{version}.tar.gz
+Source0:	https://github.com/Denvi/Candle/archive/v%{version}.tar.xz
 Patch0:		translation.patch
 
 BuildRequires:	cmake(Qt5SerialPort)
