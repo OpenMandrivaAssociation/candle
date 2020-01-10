@@ -25,7 +25,7 @@ Visualizing G-code files.
 
 %prep
 %setup -qn Candle-%{version}
-%apply_patches
+%autopatch -p1
 
 %build
 pushd src
