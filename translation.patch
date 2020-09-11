@@ -1,10 +1,9 @@
-diff --git a/src/frmabout.cpp b/src/frmabout.cpp
-index d77774b..fbf6ab4 100644
---- a/src/frmabout.cpp
-+++ b/src/frmabout.cpp
+diff -up Candle-1.2b/src/frmabout.cpp.1~ Candle-1.2b/src/frmabout.cpp
+--- Candle-1.2b/src/frmabout.cpp.1~	2019-10-30 16:40:25.000000000 +0100
++++ Candle-1.2b/src/frmabout.cpp	2020-09-11 15:35:23.587906180 +0200
 @@ -12,8 +12,11 @@ frmAbout::frmAbout(QWidget *parent) :
      ui->setupUi(this);
-
+ 
      ui->lblAbout->setText(ui->lblAbout->text().arg(qApp->applicationVersion()));
 -
 +#ifdef UNIX
@@ -12,13 +11,12 @@ index d77774b..fbf6ab4 100644
 +#else
      QFile file(qApp->applicationDirPath() + "/LICENSE");
 +#endif
-
+ 
      if (file.open(QIODevice::ReadOnly)) {
          ui->txtLicense->setPlainText(file.readAll());
-diff --git a/src/frmmain.cpp b/src/frmmain.cpp
-index 48fee72..02f306c 100644
---- a/src/frmmain.cpp
-+++ b/src/frmmain.cpp
+diff -up Candle-1.2b/src/frmmain.cpp.1~ Candle-1.2b/src/frmmain.cpp
+--- Candle-1.2b/src/frmmain.cpp.1~	2020-09-11 15:35:23.588906195 +0200
++++ Candle-1.2b/src/frmmain.cpp	2020-09-11 17:36:15.772805181 +0200
 @@ -32,6 +32,8 @@
  #include <QAction>
  #include <QLayout>
@@ -27,26 +25,25 @@ index 48fee72..02f306c 100644
 +
  #include "frmmain.h"
  #include "ui_frmmain.h"
-
-@@ -85,7 +87,11 @@ frmMain::frmMain(QWidget *parent) :
-                        << "black";
-
+ #include "ui_frmsettings.h"
+@@ -116,7 +118,11 @@ frmMain::frmMain(QWidget *parent) :
+     m_spindleCommandSpeed = false;
+ 
      // Loading settings
 +#ifdef UNIX
-+    m_settingsFileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)+ "/candle/" + "/settings.ini";
++    m_settingsFileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/candle/settings.ini";
 +#else
      m_settingsFileName = qApp->applicationDirPath() + "/settings.ini";
 +#endif
      preloadSettings();
-
+ 
      m_settings = new frmSettings(this);
-diff --git a/src/main.cpp b/src/main.cpp
-index aeed2e0..6e1e21a 100644
---- a/src/main.cpp
-+++ b/src/main.cpp
+diff -up Candle-1.2b/src/main.cpp.1~ Candle-1.2b/src/main.cpp
+--- Candle-1.2b/src/main.cpp.1~	2019-10-30 16:40:25.000000000 +0100
++++ Candle-1.2b/src/main.cpp	2020-09-11 15:35:23.588906195 +0200
 @@ -44,7 +44,11 @@ int main(int argc, char *argv[])
  //    QLocale::setDefault(QLocale("es"));
-
+ 
      QString loc = QLocale().name().left(2);
 +#ifdef UNIX
 +    QString translationsFolder = "/usr/share/" + qApp->applicationDisplayName() + "/translations/";
@@ -54,5 +51,5 @@ index aeed2e0..6e1e21a 100644
      QString translationsFolder = qApp->applicationDirPath() + "/translations/";
 +#endif
      QString translationFileName = translationsFolder + qApp->applicationDisplayName() + "_" + loc + ".qm";
-
+ 
      qDebug() << "locale:" << loc;

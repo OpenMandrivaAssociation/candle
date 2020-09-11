@@ -1,0 +1,61 @@
+diff -up Candle-1.2b/src/candle.pro.omv~ Candle-1.2b/src/candle.pro
+--- Candle-1.2b/src/candle.pro.omv~	2020-09-11 17:37:27.764780920 +0200
++++ Candle-1.2b/src/candle.pro	2020-09-11 17:37:51.947108674 +0200
+@@ -111,8 +111,8 @@ RESOURCES += \
+     shaders.qrc \
+     images.qrc
+ 
+-CONFIG(release, debug|release) {
++win32:CONFIG(release, debug|release) {
+     QMAKE_CXXFLAGS += -Z7 -Fdrelease\\candle.pdb
+     QMAKE_CFLAGS += -Z7 -Fdrelease\\candle.pdb
+     QMAKE_LFLAGS += /DEBUG /OPT:REF
+-}
+\ No newline at end of file
++}
+diff -up Candle-1.2b/src/frmmain.cpp.omv~ Candle-1.2b/src/frmmain.cpp
+--- Candle-1.2b/src/frmmain.cpp.omv~	2020-09-11 17:42:03.275515045 +0200
++++ Candle-1.2b/src/frmmain.cpp	2020-09-11 17:42:11.408625277 +0200
+@@ -33,6 +33,7 @@
+ #include <QLayout>
+ #include <QMimeData>
+ #include <QStandardPaths>
++#include <qgl.h>
+ 
+ #include "frmmain.h"
+ #include "ui_frmmain.h"
+diff -up Candle-1.2b/src/frmmain.h.omv~ Candle-1.2b/src/frmmain.h
+--- Candle-1.2b/src/frmmain.h.omv~	2020-09-11 17:40:04.837909805 +0200
++++ Candle-1.2b/src/frmmain.h	2020-09-11 17:41:06.044739370 +0200
+@@ -70,7 +70,7 @@ public:
+ #define _GLIBCXX_USE_NOEXCEPT _NOEXCEPT
+ #endif
+ 
+-    const char* what() const override
++    const char* what() const override __attribute__((__nothrow__))
+     {
+         return "Operation was cancelled by user";
+     }
+diff -up Candle-1.2b/src/widgets/glwidget.cpp.omv~ Candle-1.2b/src/widgets/glwidget.cpp
+--- Candle-1.2b/src/widgets/glwidget.cpp.omv~	2020-09-11 17:39:28.078411587 +0200
++++ Candle-1.2b/src/widgets/glwidget.cpp	2020-09-11 17:43:17.925526811 +0200
+@@ -7,6 +7,8 @@
+ #include <QtWidgets>
+ #include <QPainter>
+ #include <QEasingCurve>
++#include <GL/gl.h>
++#include <qopenglext.h>
+ 
+ #ifdef GLES
+ #include <GLES/gl.h>
+diff -up Candle-1.2b/src/candle.pro.omv~ Candle-1.2b/src/candle.pro
+--- Candle-1.2b/src/candle.pro.omv~	2020-09-11 17:45:46.421663787 +0200
++++ Candle-1.2b/src/candle.pro	2020-09-11 17:45:48.476694447 +0200
+@@ -24,7 +24,6 @@ contains(QT_CONFIG, opengles.) {
+     warning("GL ES detected. VAO will be disabled.")
+     DEFINES += GLES
+     INSTALLS += target
+-    target.path = /home/pi
+ }
+ 
+ TARGET = Candle
