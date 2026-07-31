@@ -1,13 +1,13 @@
 Summary:	GRBL controller application
 Name:           candle
-Version:        1.2b
+Version:        11.2
 Release:        1
 License:        GPLv2+
 Group:          Monitoring
 Url:            https://github.com/Denvi/Candle
 Source0:	https://github.com/Denvi/Candle/archive/v%{version}.tar.gz
-Patch0:		translation.patch
-Patch1:		candle-1.2b-compile.patch
+# dropped (no longer applies): Patch0:		translation.patch
+# dropped (no longer applies): Patch1:		candle-11.2-compile.patch
 
 BuildRequires:	cmake(Qt5SerialPort)
 BuildRequires:	cmake(Qt5Core)
@@ -25,7 +25,7 @@ Loading, editing, saving and sending of G-code files to cnc-machine.
 Visualizing G-code files.
 
 %prep
-%setup -qn Candle-%{version}
+%setup -qn Candle-%{version} -n Candle-11.2
 %autopatch -p1
 
 %build
